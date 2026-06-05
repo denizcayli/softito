@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Pratikleri</title>
+</head>
+<body>
+    <h1>Merhaba SoftITO</h1>
+    <button id="change">Değiştir</button>
+    <p id="yazi">Merhaba</p>
+    <script>
+        const buton = document.getElementById('change');
+        const yazi = document.getElementById('yazi');
+
+        
+        let click = 0;
+        buton.addEventListener('click',function(){
+            click++;
+        
+            if (click === 1){
+            yazi.textContent = "Butona tıkladınız";
+            } 
+            else if(click === 2) {
+            yazi.textContent = "Sinem ve Dilek";
+            }
+            else if(click === 3) {
+            yazi.textContent = "Deniz";
+            }
+            });
+            
+
+    </script>
+
+</body>
+</html>
+

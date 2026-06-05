@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilgi Formu</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="firstname-input" placeholder="İsim" required>
+        
+        <input type="text" id="lastname-input" placeholder="Soyisim" required>
+        
+        <input type="tel" id="phone-input" placeholder="Telefon Numarası" required>
+        
+        <input type="file" id="image-input">
+        
+        <button type="submit">Gönder</button>
+    </form>
+
+    <div id="result" style="display: none;">
+        <p>İsim: <span id="firstname"></span></p>
+        
+        <p>Soyisim: <span id="lastname"></span></p>
+        
+        <p>Telefon: <span id="phone"></span></p>
+        
+        <img id="preview-image" src="" alt="Önizleme" style="display: none;">
+    </div>
+
+    <script>
+        // HTML'deki form elementini JavaScript'te kontrol etmek için değişkene atıyorum.
+        const form = document.getElementById("form");
+        
+        // Verilerin gösterileceği sonuç divini JavaScript'te kontrol etmek için seçiyorum.
+        const resultDiv = document.getElementById("result");
+        
+        // Önizleme resim etiketini JavaScript tarafında yönetebilmek için değişkene alıyorum.
+        const imgElement = document.getElementById("preview-image");
+
+        // Formun gönderilme anını yakalamak için bir olay dinleyici ekliyorum.
+        form.addEventListener("submit", (e) => {
+            
+            // Sayfanın otomatik olarak yenilenmesini ve formun sıfırlanmasını engelliyorum.
+            e.preventDefault();
+
+            // İsim inputuna yazılan değeri alıp sonuçtaki ilgili alana yazdırıyorum.
+            document.getElementById("firstname").textContent = document.getElementById("firstname-input").value;
+            
+            // Soyisim inputuna yazılan değeri alıp sonuçtaki ilgili alana aktarıyorum.
+            document.getElementById("lastname").textContent = document.getElementById("lastname-input").value;
+            
+            // Telefon inputuna yazılan numarayı alıp sonuçtaki ilgili alana yerleştiriyorum.
+            document.getElementById("phone").textContent = document.getElementById("phone-input").value;
+
+            // Resim seçilen dosya girdisini JavaScript nesnesi olarak seçiyorum.
+            const resimInput = document.getElementById("image-input");
+            
+            // Kullanıcının dosya seçici üzerinden yüklediği ilk dosyayı alıyorum.
+            const img = resimInput.files[0];
+
+            // Eğer kullanıcı gerçekten bir resim dosyası seçtiyse bu bloğu çalıştırıyorum.
+            if (img) {
+                // Seçilen resim dosyasına tarayıcının okuyabileceği geçici bir URL adresi üretiyorum.
+                imgElement.src = URL.createObjectURL(img);
+                
+                // Başlangıçta gizli olan resim etiketini ekranda görünür hale getiriyorum.
+                imgElement.style.display = "block";
+            
+            // Eğer kullanıcı hiçbir dosya seçmediyse bu bloğu çalıştırıyorum.
+            } else {
+                // Ekranda boş bir resim kutusu kalmaması için resim alanını gizliyorum.
+                imgElement.style.display = "none";
+            }
+
+            // Form başarıyla gönderildiği için tüm sonuç panelini ekranda görünür yapıyorum.
+            resultDiv.style.display = "block";
+        });
+    </script>
+
+</body>
+</html>

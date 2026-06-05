@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Basit Bilgi Formu</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" name="isim" placeholder="İsim" required>
+        <input type="text" name="soyisim" placeholder="Soyisim" required>
+        <input type="tel" name="telefon" placeholder="Telefon Numarası" required>
+        <input type="file" id="resim-input">
+        <button type="submit">Gönder</button>
+    </form>
+
+    <div id="result" style="display: none;">
+        <p><b>İsim:</b> <span id="yaz-isim"></span></p>
+        <p><b>Soyisim:</b> <span id="yaz-soyisim"></span></p>
+        <p><b>Telefon:</b> <span id="yaz-telefon"></span></p>
+        <img id="onizleme" src="" alt="Önizleme" style="display: none; max-width: 200px;">
+    </div>
+
+    <script>
+        const form = document.getElementById("form");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault(); // Sayfanın yenilenmesini engelle
+
+            // 1. Tüm yazılı alanları tek seferde çekiyoruz
+            const veri = new FormData(form);
+            document.getElementById("yaz-isim").textContent = veri.get("isim");
+            document.getElementById("yaz-soyisim").textContent = veri.get("soyisim");
+            document.getElementById("yaz-telefon").textContent = veri.get("telefon");
+
+            // 2. Resim yüklenmişse önizleme oluşturuyoruz
+            const dosya = document.getElementById("resim-input").files[0];
+            const imgElement = document.getElementById("onizleme");
+            
+            if (dosya) {
+                imgElement.src = URL.createObjectURL(dosya);
+                imgElement.style.display = "block";
+            } else {
+                imgElement.style.display = "none";
+            }
+
+            // 3. Sonuç panelini görünür yap
+            document.getElementById("result").style.display = "block";
+        });
+    </script>
+
+</body>
+</html>

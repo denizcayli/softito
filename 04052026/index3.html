@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bilgi Formu</title>
+</head>
+<body>
+
+    <form id="form">
+        <input type="text" id="firstname-input" placeholder="İsim" required>
+        <br><br>
+        <input type="text" id="lastname-input" placeholder="Soyisim" required>
+        <br><br>
+        <input type="tel" id="phone-input" placeholder="Telefon Numarası" required>
+        <br><br>
+        <input type="file" id="image-input">
+        <button type="submit">Gönder</button>
+    </form>
+
+    <div id="result" style="display: none;">
+        <p>İsim: <span id="firstname"></span></p>
+        <p>Soyisim: <span id="lastname"></span></p>
+        <p>Telefon: <span id="phone"></span></p>
+        <img id="preview-image" src="" alt="Önizleme" style="display: none;">
+    </div>
+
+    <script>
+        const form = document.getElementById("form");
+        const resultDiv = document.getElementById("result");
+        const imgElement = document.getElementById("preview-image");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            document.getElementById("firstname").textContent = document.getElementById("firstname-input").value;
+            document.getElementById("lastname").textContent = document.getElementById("lastname-input").value;
+            document.getElementById("phone").textContent = document.getElementById("phone-input").value;
+
+            const resimInput = document.getElementById("image-input");
+            const img = resimInput.files[0];
+
+            if (img) {
+                imgElement.src = URL.createObjectURL(img);
+                imgElement.style.display = "block";
+            } else {
+                imgElement.style.display = "none";
+            }
+
+            resultDiv.style.display = "block";
+        });
+    </script>
+
+</body>
+</html>

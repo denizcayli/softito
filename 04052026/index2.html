@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Pratikleri</title>
+</head>
+<body>
+<script>
+    window.addEventListener('load', function() {
+    console.log("Sayfanız başarıyla yüklendi");
+    });
+
+    setTimeout(function() {
+    console.log("Sayfamıza Hoşgeldiniz");}, 1000);
+
+    setTimeout(function() {
+    console.log("5 saniye geçti..");}, 5000);
+
+    setTimeout(function() {
+    console.log("10 saniye geçti...");}, 10000);
+
+    
+    const img = new Image(300, 200); 
+    img.src = 'foto.png';
+    img.alt = 'HTML LOGOSU';
+    document.body.appendChild(img);
+
+    const buton = document.getElementById("click")
+    img.addEventListener("click", function() {
+    console.log("HTML LOGOSU");
+    });
+
+</script>
+
+</body>
+</html>
+ --form ya isim soy sim tel resim ekrana tak diye gelecek sayfa refresh olmadan 
+ 
+
