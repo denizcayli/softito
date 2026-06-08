@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex - JS Resize English</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 p-8 flex flex-col items-center">
+    <div class="max-w-xl w-full bg-white p-6 rounded shadow">
+        <h1 class="text-xl font-bold mb-4">Tailwind + JS Resize</h1>
+        <div>
+            <div id="box-wrapper" class="flex flex-col gap-4 bg-slate-50 p-3 border rounded">
+                <div class="bg-purple-500 text-white p-3 rounded">Kutu1</div>
+                <div class="bg-blue-500 text-white p-3 rounded">Kutu2</div>
+                <div class="bg-pink-500 text-white p-3 rounded">Kutu3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('box-wrapper');
+        function checkSize() {
+            const width = window.innerWidth;
+
+            if (width < 640) {
+                wrapper.classList.remove('flex-row');
+                wrapper.classList.add('flex-col');
+            } else {
+                wrapper.classList.remove('flex-col');
+                wrapper.classList.add('flex-row');
+            }
+        }
+        window.addEventListener('resize', checkSize);
+        window.addEventListener('DOMContentLoaded', checkSize);
+    </script>
+</body>
+</html>
