@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödev 3 - Relative</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>
+</head>
+    <body class="bg-purple-50 min-h-screen p-8 flex flex-col items-center justify-center font-sans">
+        <div class="relative w-full max-w-sm bg-white border-2 border-purple-200 rounded-2xl p-6 shadow-md">
+        <div class="absolute -top-3 right-4 bg-green-600 bg-green-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
+            HEMEN KATIL
+        </div>
+
+        <div class="space-y-2">
+            <h2 class="text-lg font-bold text-gray-900">Frontend Eğitimi</h2>
+            <p class="text-xs text-indigo-700 leading-relaxed">
+               Tanım: Bir elemanın sayfadaki kendi orijinal yerini koruyarak, içerisindeki diğer elemanlara bir merkez (referans noktası) oluşturmasıdır.
+                Ne İşe Yarar?: Tek başına düzeni bozmaz. İçine gelecek olan absolute elemanların dışarıya taşmasını engeller ve onları kendi sınırları içine hapseder.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="mt-4 text-[11px] text-green-600 font-mono text-center max-w-xs">
+        Maddenin sağ üstündeki hemen katıl noktası, relative kutunun sınırlarına göre konumlandırdım.
+    </div>
+
+</body>
+</html>

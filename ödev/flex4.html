@@ -1,39 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flex - JS matchMedia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Yöntem 4 - Auto-fit Grid Sistemi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>
 </head>
 <body class="bg-slate-100 p-8 flex flex-col items-center">
+
     <div class="max-w-xl w-full bg-white p-6 rounded shadow">
-        <h1 class="text-xl font-bold mb-4">Tailwind + JS matchMedia</h1>
+        <h1 class="text-xl font-bold mb-4">CSS Saf Grid (Auto-fit)</h1>
+        
         <div>
-            <div id="box-wrapper" class="flex flex-col gap-4 bg-slate-50 p-3 border rounded">
-                <div class="bg-purple-500 text-white p-3 rounded">Kutu1</div>
-                <div class="bg-blue-500 text-white p-3 rounded">Kutu2</div>
-                <div class="bg-pink-500 text-white p-3 rounded">Kutu3</div>
+            <div class="bg-slate-50 p-3 border rounded" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div class="bg-purple-500 text-white p-3 rounded text-center">Kutu1</div>
+                <div class="bg-blue-500 text-white p-3 rounded text-center">Kutu2</div>
+                <div class="bg-pink-500 text-white p-3 rounded text-center">Kutu3</div>
             </div>
         </div>
     </div>
 
-    <script>
-        const wrapper = document.getElementById('box-wrapper');
-        const media = window.matchMedia("(min-width: 640px)");
-
-        function handleMedia(event) {
-            if (event.matches) {
-                wrapper.classList.remove('flex-col');
-                wrapper.classList.add('flex-row');
-            } else {
-                wrapper.classList.remove('flex-row');
-                wrapper.classList.add('flex-col');
-            }
-        }
-
-        media.addEventListener('change', handleMedia);
-        handleMedia(media);
-    </script>
 </body>
 </html>

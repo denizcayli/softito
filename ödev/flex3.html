@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flex - JS Resize</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flex Yapısı</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-100 p-8 flex flex-col items-center">
-    <div class="max-w-xl w-full bg-white p-6 rounded shadow">
-        <h1 class="text-xl font-bold mb-4">Tailwind + JS Resize</h1>
+  </head>
+  <body class="bg-slate-100 p-8 flex flex-col items-center">
+    <div cl<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>ass="text-xl font-bold mb-4">Tailwind Flexbox</h1>
+      <div class="flex flex-col gap-4">
         <div>
-            <div id="box-wrapper" class="flex flex-col gap-4 bg-slate-50 p-3 border rounded">
-                <div class="bg-purple-500 text-white p-3 rounded">Kutu1</div>
-                <div class="bg-blue-500 text-white p-3 rounded">Kutu2</div>
-                <div class="bg-pink-500 text-white p-3 rounded">Kutu3</div>
-            </div>
+          <span class="text-xs text-slate-400 block mb-1">flex gap-4(Yanyana yerleşim)</span>
+          <div class="flex flex-wrap gap-4 bg-slate-50 p-3 border rounded">
+            <div class="w-full sm:flex-1 bg-purple-500 text-white p-3 rounded text-center">Kutu1</div>
+            <div class="w-full sm:flex-1 bg-blue-500 text-white p-3 rounded text-center">Kutu2</div>
+            <div class="w-full sm:flex-1 bg-pink-500 text-white p-3 rounded text-center">Kutu3</div>
+         </div>
+     </div>
+        <div>
+          <span class="text-xs text-slate-500 block mb-1">Flex (İki uca yaslama)</span>
+          <div class="flex justify-between items-center bg-slate-55 border rounded">
+            <span class="font-semibold text-slate-700">Sol</span>
+            <button class="bg-slate-800 text-white px-2 py-2 rounded text-sm">Sağ</button>
+          </div>
         </div>
+      </div>
     </div>
-
-    <script>
-        const wrapper = document.getElementById('box-wrapper');
-
-        function checkSize() {
-            const width = window.innerWidth;
-
-            if (width < 640) {
-                wrapper.classList.remove('flex-row');
-                wrapper.classList.add('flex-col');
-            } else {
-                wrapper.classList.remove('flex-col');
-                wrapper.classList.add('flex-row');
-            }
-        }
-
-        window.addEventListener('resize', checkSize);
-        window.addEventListener('DOMContentLoaded', checkSize);
-    </script>
-</body>
+  </body>
 </html>
