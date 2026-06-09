@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Metotları</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"/>
+</head>
+</head>
+<body class="bg-stone-50 text-gray-700 p-4 font-sans">
+
+    <div class="max-w-4xl mx-auto">
+        <!--Elemanı yatayda tam ortalar-->
+        <header class="mb-6">
+            <h1 class="text-xl font-bold text-purple-800">JavaScript Metot Rehberim - Deniz Çaylı SOFTITO</h1>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">map()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">[1, 2, 3]</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runMap()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-map" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">find()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">[10, 24, 15]</span> (x > 18)</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runFind()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-find" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">reduce()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">[10, 20, 30]</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runReduce()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-reduce" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">filter()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">[5, 12, 8, 20]</span> (x >= 10)</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runFilter()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-filter" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">some()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">[1, 3, 6]</span> (Çift var mı? bunu kontrol ediyor)</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runSome()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-some" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">every()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">[2, 4, 6]</span> (Hepsi çift mi?)</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runEvery()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-every" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">push()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">["HTML", "CSS"]</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runPush()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-push" class="text-xs font-mono font-bold text-purple-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">includes()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">"JavaScript"</span> ("Script" var mı?)</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runIncludes()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-includes" class="text-xs font-mono font-bold text-emerald-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">toLowerCase()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">"REACT"</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runToLowerCase()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-lowercase" class="text-xs font-mono font-bold text-emerald-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">toUpperCase()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">"tailwind"</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runToUpperCase()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-uppercase" class="text-xs font-mono font-bold text-emerald-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">trim()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">"   boşluk   "</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runTrim()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-trim" class="text-xs font-mono font-bold text-emerald-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">split()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">"a-b-c"</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runSplit()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-split" class="text-xs font-mono font-bold text-emerald-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">join()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">["X", "Y", "Z"]</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runJoin()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-join" class="text-xs font-mono font-bold text-emerald-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">parseFloat()</h3>
+                <p class="text-xs text-gray-800">İlk hali: <span class="font-mono">"12.34px"</span></p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runParseFloat()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Çalıştır</button>
+                    <span id="res-float" class="text-xs font-mono font-bold text-pink-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">setInterval()</h3>
+                <p class="text-xs text-gray-800">Zamanlayıcı döngüsü.</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runSetInterval()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Başlat</button>
+                    <span id="res-interval" class="text-xs font-mono font-bold text-pink-600"></span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border border-gray-200 rounded-md">
+                <h3 class="font-bold text-indigo-600">clearInterval()</h3>
+                <p class="text-xs text-gray-800">Döngüyü kırar.</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <button onclick="runClearInterval()" class="px-2 py-1 text-xs bg-gray-100 hover:bg-green-200 rounded border">Durdur</button>
+                    <span id="res-clear" class="text-xs font-mono font-bold text-pink-600"></span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function runMap() {
+            // map: listedeki tüm elemanları tek tek gezip değiştirerek yeni bir liste yapar
+            const arr = [1, 2, 3];
+            const res = arr.map(x => x * 2);
+            document.getElementById("res-map").innerText = `=> [${res.join(", ")}]`;
+        }
+        function runFind() {
+            // find: listenin içinde verdiğimiz kurala uyan İLK elemanı bulup getirir
+            const arr = [10, 24, 15];
+            const res = arr.find(x => x > 18);
+            document.getElementById("res-find").innerText = `=> ${res}`;
+        }
+        function runReduce() {
+            // reduce: listedeki tüm sayıları üst üste ekleyerek tek bir toplam değere indirger
+            const arr = [10, 20, 30];
+            const res = arr.reduce((acc, curr) => acc + curr, 0);
+            document.getElementById("res-reduce").innerText = `=> ${res}`;
+        }
+        function runFilter() {
+            // filter: belli bir kurala göre filtreliyor
+            const arr = [5, 12, 8, 20];
+            const res = arr.filter(x => x >= 10);
+            document.getElementById("res-filter").innerText = `=> [${res.join(", ")}]`;
+        }
+        function runSome() {
+            // some listenin içinde kurala uyan EN AZ BİR eleman var mı diye bakar (true/false) olarak
+            const arr = [1, 3, 6];
+            const res = arr.some(x => x % 2 === 0);
+            document.getElementById("res-some").innerText = `=> ${res}`;
+        }
+        function runEvery() {
+            // every listedeki HERKES kurala uyuyor mu diye kontrol eder (true/false) şeklinde
+            const arr = [2, 4, 6];
+            const res = arr.every(x => x % 2 === 0);
+            document.getElementById("res-every").innerText = `=> ${res}`;
+        }
+        function runPush() {
+            // push listenin en sonuna yeni bir eleman ekler
+            const arr = ["HTML", "CSS"];
+            arr.push("JS");
+            document.getElementById("res-push").innerText = `=> [${arr.join(", ")}]`;
+        }
+        function runIncludes() {
+            // includes aradığımız kelime veya değer metnin/listenin içinde geçiyor mu diye bakar
+            const str = "JavaScript";
+            const res = str.includes("Script");
+            document.getElementById("res-includes").innerText = `=> ${res}`;
+        }
+        function runToLowerCase() {
+            // toLowerCase kelimedeki tüm harfleri küçük harfe çevirir
+            const str = "REACT";
+            document.getElementById("res-lowercase").innerText = `=> "${str.toLowerCase()}"`;
+        }
+        function runToUpperCase() {
+            // toUpperCase: kelimedeki tüm harfleri büyük harfe çevirir
+            const str = "tailwind";
+            document.getElementById("res-uppercase").innerText = `=> "${str.toUpperCase()}"`;
+        }
+        function runTrim() {
+            // trim kelimenin başındaki ve sonundaki gereksiz boşlukları temizler
+            const str = "   boşluk   ";
+            document.getElementById("res-trim").innerText = `=> "${str.trim()}"`;
+        }
+        function runSplit() {
+            // split düz bir metni verdiğimiz ayraca göre parçalayıp listeye (diziye) çevirir
+            const str = "a-b-c";
+            const res = str.split("-");
+            document.getElementById("res-split").innerText = `=> [${res.join(", ")}]`;
+        }
+        function runJoin() {
+            // join bir listenin elemanlarını aralarına karakter koyarak düz bir metin yapar
+            const arr = ["X", "Y", "Z"];
+            document.getElementById("res-join").innerText = `=> "${arr.join("/")}"`;
+        }
+        function runParseFloat() {
+            // parseFloat metin halindeki ifadenin içinden ondalıklı sayıyı ayıklayıp sayıya çeviriyor
+            const str = "12.34px";
+            document.getElementById("res-float").innerText = `=> ${parseFloat(str)}`;
+        }
+
+        let intervalId = null;
+        let count = 0;
+        function runSetInterval() {
+            // setInterval verdiğim işlemi her 1 saniyede bir durmadan sürekli çalıştırır
+            if (intervalId !== null) return;
+            count = 0;
+            document.getElementById("res-clear").innerText = "";
+            intervalId = setInterval(() => {
+                count++;
+                document.getElementById("res-interval").innerText = `=> Saniye: ${count}`;
+            }, 1000);
+        }
+        function runClearInterval() {
+            // clearInterval: arka planda sürekli dönen setInterval sayacını durduruyor
+            if (intervalId !== null) {
+                clearInterval(intervalId);
+                intervalId = null;
+                document.getElementById("res-interval").innerText = "";
+                document.getElementById("res-clear").innerText = `=> Durduruldu (${count})`;
+            }
+        }
+    </script>
+</body>
+</html>
