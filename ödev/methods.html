@@ -167,59 +167,69 @@
     <script>
         function runMap() {
             // map: listedeki tüm elemanları tek tek gezip değiştirerek yeni bir liste yapar
+            //burada 2 ile çarptığımız için 2,4,6 oluyor
             const arr = [1, 2, 3];
             const res = arr.map(x => x * 2);
             document.getElementById("res-map").innerText = `=> [${res.join(", ")}]`;
         }
         function runFind() {
             // find: listenin içinde verdiğimiz kurala uyan İLK elemanı bulup getirir
+            //18den büyük listemizden 24 olduğundan sonuç 24 olur
             const arr = [10, 24, 15];
             const res = arr.find(x => x > 18);
             document.getElementById("res-find").innerText = `=> ${res}`;
         }
         function runReduce() {
             // reduce: listedeki tüm sayıları üst üste ekleyerek tek bir toplam değere indirger
+            //yani önce 0+10 sonra 10+20 en son 30+30 üst üstte binerek toplandı sonuç 60 oldu
             const arr = [10, 20, 30];
             const res = arr.reduce((acc, curr) => acc + curr, 0);
             document.getElementById("res-reduce").innerText = `=> ${res}`;
         }
         function runFilter() {
             // filter: belli bir kurala göre filtreliyor
+            //10dan büyükleri yazdırdık
             const arr = [5, 12, 8, 20];
             const res = arr.filter(x => x >= 10);
             document.getElementById("res-filter").innerText = `=> [${res.join(", ")}]`;
         }
-        function runSome() {
+        function runSome() { 
+            //en az bir tane çift sayı var mı diye baktık 
             // some listenin içinde kurala uyan EN AZ BİR eleman var mı diye bakar (true/false) olarak
             const arr = [1, 3, 6];
             const res = arr.some(x => x % 2 === 0);
             document.getElementById("res-some").innerText = `=> ${res}`;
         }
         function runEvery() {
-            // every listedeki HERKES kurala uyuyor mu diye kontrol eder (true/false) şeklinde
+            //tüm elemanlar çift mi diye bakar.
+            // every listedeki herkes kurala uyuyor mu diye kontrol eder true/false şeklinde
             const arr = [2, 4, 6];
             const res = arr.every(x => x % 2 === 0);
             document.getElementById("res-every").innerText = `=> ${res}`;
         }
         function runPush() {
             // push listenin en sonuna yeni bir eleman ekler
+            //dizinin sonunda JS ekledik
             const arr = ["HTML", "CSS"];
             arr.push("JS");
             document.getElementById("res-push").innerText = `=> [${arr.join(", ")}]`;
         }
         function runIncludes() {
             // includes aradığımız kelime veya değer metnin/listenin içinde geçiyor mu diye bakar
+            //javascript içinde script geçtiğinden true dönüyor
             const str = "JavaScript";
             const res = str.includes("Script");
             document.getElementById("res-includes").innerText = `=> ${res}`;
         }
         function runToLowerCase() {
             // toLowerCase kelimedeki tüm harfleri küçük harfe çevirir
+            //react şeklinde her harf küçüldü
             const str = "REACT";
             document.getElementById("res-lowercase").innerText = `=> "${str.toLowerCase()}"`;
         }
         function runToUpperCase() {
             // toUpperCase: kelimedeki tüm harfleri büyük harfe çevirir
+            //TAILWIND oldu
             const str = "tailwind";
             document.getElementById("res-uppercase").innerText = `=> "${str.toUpperCase()}"`;
         }
@@ -229,17 +239,20 @@
             document.getElementById("res-trim").innerText = `=> "${str.trim()}"`;
         }
         function runSplit() {
+            //tire işaretlerini sildi
             // split düz bir metni verdiğimiz ayraca göre parçalayıp listeye (diziye) çevirir
             const str = "a-b-c";
             const res = str.split("-");
             document.getElementById("res-split").innerText = `=> [${res.join(", ")}]`;
         }
         function runJoin() {
+            //arasına eğik çizgi koyduk
             // join bir listenin elemanlarını aralarına karakter koyarak düz bir metin yapar
             const arr = ["X", "Y", "Z"];
             document.getElementById("res-join").innerText = `=> "${arr.join("/")}"`;
         }
         function runParseFloat() {
+            //string içindeki ifadedeki sayıya çeviriyor
             // parseFloat metin halindeki ifadenin içinden ondalıklı sayıyı ayıklayıp sayıya çeviriyor
             const str = "12.34px";
             document.getElementById("res-float").innerText = `=> ${parseFloat(str)}`;
@@ -248,6 +261,7 @@
         let intervalId = null;
         let count = 0;
         function runSetInterval() {
+            //her saniye artıyor butona bastıktan sonra
             // setInterval verdiğim işlemi her 1 saniyede bir durmadan sürekli çalıştırır
             if (intervalId !== null) return;
             count = 0;
@@ -258,6 +272,7 @@
             }, 1000);
         }
         function runClearInterval() {
+            //sayacı durdururs
             // clearInterval: arka planda sürekli dönen setInterval sayacını durduruyor
             if (intervalId !== null) {
                 clearInterval(intervalId);
