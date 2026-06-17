@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export default function KampanyaBanner() {
   const [secondsLeft, setSecondsLeft] = useState(3600 * 3 + 1200);
-  // Sayacın başlangıç saniyesini tuttuk ve değiştiren anahtarı usesatet ile açtık
+  // Sayacın başlangıç saniyesini tuttuk ve değiştiren anahtarı usesatet ile açtık bu mat. hesaplaması 4 saate denk geliyor
 
   useEffect(() => {// Sayfa ilk açıldığında kronometreyi 1 kere kurmak için
     const timer = setInterval(() => {// Tarayıcıya her 1 saniyede bir çalışacak zamanlayıcı
