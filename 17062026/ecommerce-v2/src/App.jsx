@@ -14,6 +14,10 @@ function App() {
   const [view, setView] = useState("home"); // Ekranda hangi sayfanın görüneceği (home / addProduct)
   const [searchQuery, setSearchQuery] = useState(""); // Filtrelemeyi tetikleyen asıl arama kelimesi
   const [searchInput, setSearchInput] = useState(""); // Arama çubuğundaki anlık input değeri
+  const [sepet,setSepet] = useState([]); //kullanıcın sepete attığı ürünleri 
+  //id title price vb lsite halinde tutuyoruz.
+
+
 
   // Formdan gelen verilerle yeni ürün oluşturan fonksiyon
   const handleAddProduct = (data) => {
@@ -30,6 +34,40 @@ function App() {
     // Yeni ürünü listenin başına ekleyip state'i güncelleme
     setProducts([newProduct, ...products]);
   };
+
+  const handleSepeteEkle = (urun)=> {  // Ürün kartındaki + butonuna basılınca çalışan sepete ekleme fonksiyonunu başlattık
+    setSepet((prevSepet) => {
+      const varOlan = prevSepet.find((item) => item.id === urun.id);
+
+      if (varOlan){
+        return prevSepet.map((item) => 
+          item.id === urun.id ? {...item, adet: item.adet + 1} : item
+        )
+      }
+      return [...prevSepet, { id: urun.id, title: urun.title, price: urun.price, adet:1}];
+    })
+  }
+
+  // Ürün kartındaki - butonuna basılınca adet düşürme ve silme fonksiyonu
+      const handleAdetDusur = (productId) => {
+    setSepet((prevSepet) => {
+    // Adedi düşürülecek ürün sepette var mı diye kontrol ettik
+    const varOlan = prevSepet.find((item) => item.id === productId);
+    
+    //  Eğer ürün sepette zaten yoksa hiçbir şey yapmadan sepeti aynen bırak dedik
+    if (!varOlan) return prevSepet;
+
+    if (varOlan.adet === 1) {
+      // Eğer ürünün sepetteki adedi 1 ise, eksiye basınca filter ile o ürünü sepetten tamamen çıkarmış olduk
+      return prevSepet.filter((item) => item.id !== productId);
+    }
+    
+    // Eğer adet 1'den büyükse, map ile dönüp sadece o ürünün adet değerini 1 azalttık tamamen silmedik
+    return prevSepet.map((item) =>
+      item.id === productId ? { ...item, adet: item.adet - 1 } : item
+    );
+  });
+};
 
   // Kategori ve Arama kelimesine göre ürünleri filtreleyen motor
   const filteredProducts = products.filter((p) => {
@@ -57,7 +95,12 @@ function App() {
         setSearchQuery={setSearchQuery}
         setSelectedCategory={setSelectedCategory}
         setView={setView}
-      />
+        sepet={sepet} //YENİ EKLEDİMM !! sağdaki sepetim kıısmı için prop olarak gönderiytoruz
+        sepeteEkle={handleSepeteEkle}
+        adetDusur={handleAdetDusur}
+     
+     
+     />
       
       {/* Kategori Navigasyon Menüsü */}
       <Navbar
@@ -96,7 +139,13 @@ function App() {
                 </p>
               </div>
             ) : (
-              <ProductGrid products={filteredProducts} />
+              <ProductGrid products={filteredProducts}
+              //YENİ EKLEDİMM !! -alt kısmı dive kadar
+              products={filteredProducts}
+              sepet={sepet}
+              sepeteEkle={handleSepeteEkle}
+              adetDusur={handleAdetDusur}
+              />
             )}
           </div>
         </main>

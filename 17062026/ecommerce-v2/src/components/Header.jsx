@@ -1,56 +1,134 @@
+import React, { useState } from "react"; // useState'i kullanabilmek için ekledik (Bu zaten vardı)
+
 export default function Header({
-  searchInput,         // Arama inputundaki anlık metin
-  setSearchInput,      // İnput metnini güncelleyen fonksiyon
-  handleSearchSubmit,  // Arama formu gönderildiğinde tetiklenen fonksiyon
-  setSelectedCategory, // Seçili kategoriyi değiştiren fonksiyon
-  setSearchQuery,      // Filtrelemeyi tetikleyen asıl arama kelimesi fonksiyonu
-  setView,             // Sayfa görünümünü değiştiren fonksiyon
+  searchInput,
+  setSearchInput,
+  handleSearchSubmit,
+  setSelectedCategory,
+  setSearchQuery,
+  setView,
+  sepet, //app.jsx gelen sepet verisi 
+  sepeteEkle, 
+  adetDusur 
 }) {
-  // Logoya tıklandığında tüm filtreleri temizleyip anasayfaya döndüren fonksiyon
-  const handleLogoClick = () => { 
-    setView("home");             // Anasayfaya yönlendir
-    setSelectedCategory("Tümü"); // Kategoriyi sıfırla
-    setSearchQuery("");          // Filtrelenen arama kelimesini sıfırla
-    setSearchInput("");          // Arama input kutusunu temizle
+  // Sepet penceresinin açılıp kapanmasını kontrol eden state
+  const [isSepetAcik, setIsSepetAcik] = useState(false);
+
+  // Sepetteki ürünlerin fiyatlarını ve adetlerini çarpıp toplam tutarı hesaplar
+  const toplamTutar = sepet ? sepet.reduce((toplam, item) => toplam + (item.price * item.adet), 0) : 0;
+
+  // Satın al butonuna basılınca çalışan fonksiyon 
+  const handleSatinAl = () => {
+    if (!sepet || sepet.length === 0) {
+      alert("Sepetiniz henüz boş! Önce ürün eklemelisiniz.");
+      return;
+    }
+    alert(`Alışverişiniz başarıyla tamamlandı! Toplam Tutar: ${toplamTutar} TL`);
+    setIsSepetAcik(false); // İşlem bitince pencereyi kapatır
   };
 
-  return (  
-    <>
-      <header className="header">
-        <div className="header-container">
-          {/* Logo Alanı: Tıklandığında her şeyi sıfırlar */}
-          <div className="logo" onClick={handleLogoClick}> 
-            n11<span className="logo-accent">Clone</span>
-          </div>
+  return (
+    <header className="header">
+      <div className="header-container">
+        {/* Logo Alanı */}
+        <div className="logo" onClick={() => { setView("grid"); setSelectedCategory(""); setSearchQuery(""); }} style={{ cursor: "pointer" }}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/N11.com_logo.png" alt="n11 logo" />
+        </div>
 
-          {/* Arama Formu */}
-          <form className="search-bar" onSubmit={handleSearchSubmit}>
-            <input
-              type="text"
-              placeholder="Ürün,Kategori veya Marka Ara..."
-              className="search-input"
-              onChange={(e) => setSearchInput(e.target.value)} // İnput değiştikçe state'i güncelle
-              value={searchInput} // Input değerini state'e bağladık (Controlled Component)
-            />
-            <button type="submit" className="search-button">Ara</button>
-          </form>
+        {/* Arama Çubuğu Formu */}
+        <form onSubmit={handleSearchSubmit} className="search-container">
+          <input
+            type="text"
+            placeholder="Ürün, kategori veya marka ara..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="search-input"
+          />
+          <button type="submit" className="search-btn">Ara</button>
+        </form>
 
-          {/* Sağ Üst Menü Linkleri */}
-          <div className="header-actions">
-            {/* Tıklandığında Ürün Ekleme sayfasını açar */}
-            <div className="action-item" onClick={() => setView('addProduct')}>
-              <span>Yeni Ürün</span> 
-            </div>
-            <div className="action-item">
-              <span>Giriş Yap</span>
-            </div>
-            <div className="action-item">
+        {/* Sağ Menü Alanı (Giriş Yap, Sepetim vs.) */}
+        <div className="header-actions">
+          <div className="action-item"><span>Giriş Yap</span></div>
+          
+          {/* Sepet Alanı ve Mini Pencere Kutusu */}
+          <div 
+            className="action-item relative"
+            onClick={() => setIsSepetAcik(!isSepetAcik)} // Tıklayınca açılır/kapanır yaptık
+            style={{ cursor: "pointer", position: "relative" }}
+          >
+            <div className="flex items-center gap-1">
               <span>Sepetim</span>
-              <span className="badge">0</span> {/* Sabit sepet sayısı */}
+              <span className="badge">
+                {sepet ? sepet.reduce((toplam, item) => toplam + item.adet, 0) : 0}
+              </span>
             </div>
+
+            {/* Açılır  Sepet Penceresi */}
+            {isSepetAcik && (
+              <div 
+                className="absolute right-0 top-10 bg-white border border-gray-200 shadow-2xl rounded-2xl p-5 w-96 z-50 text-gray-800 cursor-default"
+                onClick={(e) => e.stopPropagation()} // Pencere içine tıklayınca kapanmasın diye koruma ekledik
+              >
+                <h4 className="font-bold border-b border-gray-100 pb-2 mb-2 text-base text-gray-900">Sepetimdeki Ürünler</h4>
+                
+                {!sepet || sepet.length === 0 ? (
+                  <p className="text-gray-500 text-sm py-4 text-center">Sepetiniz şu an boş.</p>
+                ) : (
+                  <>
+                    {/* Ürün Listesi */}
+                    <div className="max-h-60 overflow-y-auto mb-3 pr-1">
+                      {sepet.map((item) => (
+                        <div key={item.id} className="flex justify-between items-center py-3 border-b border-gray-50 text-xs gap-3">
+                          <span className="font-medium text-gray-700 truncate max-w-[140px]" title={item.title}>
+                            {item.title}
+                          </span>
+                          
+                          <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-1 border border-gray-200 shrink-0">
+                            <button
+                              onClick={() => adetDusur(item.id)}
+                              className="bg-red-500 text-white rounded w-5 h-5 hover:bg-red-600 transition-colors cursor-pointer font-bold flex items-center justify-center text-xs"
+                            >
+                              -
+                            </button>
+                            <span className="font-bold text-gray-800 px-1 text-xs min-w-[12px] text-center">
+                              {item.adet}
+                            </span>
+                            <button
+                              onClick={() => sepeteEkle(item)}
+                              className="bg-red-500 text-white rounded w-5 h-5 hover:bg-red-600 transition-colors cursor-pointer font-bold flex items-center justify-center text-xs"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <span className="text-gray-500 font-bold shrink-0 min-w-[70px] text-right">
+                            {item.price * item.adet} TL
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Toplam Bilgisi ve Satın Al Butonu */}
+                    <div className="border-t border-gray-100 pt-3 mt-2">
+                      <div className="flex justify-between font-extrabold text-sm mb-3 text-gray-900">
+                        <span>Toplam:</span>
+                        <span className="text-red-500">{toplamTutar} TL</span>
+                      </div>
+                      <button
+                        onClick={handleSatinAl}
+                        className="w-full bg-green-600 text-white font-bold py-2 rounded-xl hover:bg-green-700 transition-colors cursor-pointer text-sm shadow-md"
+                      >
+                        Alışverişi Tamamla (Satın Al)
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }
