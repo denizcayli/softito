@@ -34,7 +34,7 @@ export default function ProductGrid() {
           category="Ev & Yaşam"
           rating="5"
           count="2222"
-          image="ttps://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+          image="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
         />
       </div>
     </>

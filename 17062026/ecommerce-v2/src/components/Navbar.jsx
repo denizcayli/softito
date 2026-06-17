@@ -1,16 +1,20 @@
-export default function Navbar() {
+export default function Navbar({ categories, selectedCategory, setSelectedCategory, setView }) {
   return (
-    <>
-      <nav className="nav-categories">
-        <div className="nav-container">
-          <span className="nav-link nav-link-active">Tümü</span>
-          <span className="nav-link">Telefon</span>
-          <span className="nav-link">Bilgisayar</span>
-          <span className="nav-link">Aksesuar</span>
-          <span className="nav-link">Moda</span>
-          <span className="nav-link">Ev & Yaşam</span>
-        </div>
-      </nav>
-    </>
-  );
+    <nav className="nav-categories">
+      <div className="nav-container">
+        {categories.map((cat) => (
+          <span
+            key={cat}
+            className={`nav-link ${selectedCategory === cat ? 'nav-link-active' : ''}`}
+            onClick={() => {
+              setSelectedCategory(cat)
+              setView('home')
+            }}
+          >
+            {cat}
+          </span>
+        ))}
+      </div>
+    </nav>
+  )
 }

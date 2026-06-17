@@ -2,13 +2,26 @@ import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import ProductGrid from "./components/ProductGrid";
+import Footer from "./components/Footer";
+import AddProductForm from "./components/AddProductForm";
+import { MOCK_PRODUCTS, MOCK_CATEGORIES } from "./productsMock";
+import { useState } from "react";
+
 function App() {
+  const [products, setProducts] = useState(MOCK_PRODUCTS);
+  const [selectedCategory, setSelectedCategory] = useState("Tümü");
+  const [view, setView] = useState("home");
   return (
     <>
       <Header />
-      <Navbar />
+      <Navbar
+        categories={MOCK_CATEGORIES}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        setView={setView}/>
+   
       <main className="main-layout">
-        <Sidebar />
+        <Sidebar categories={MOCK_CATEGORIES} />
 
         <div className="content-area">
           <div className="content-header">
@@ -17,9 +30,10 @@ function App() {
           </div>
 
           <ProductGrid />
-          
         </div>
       </main>
+      <AddProductForm />
+      <Footer />
     </>
   );
 }
