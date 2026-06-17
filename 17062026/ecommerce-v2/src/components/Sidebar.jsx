@@ -1,22 +1,21 @@
 export default function Sidebar({
-  categories,          // Sol menüde listelenecek kategori dizisi
-  selectedCategory,    // Şu an aktif/seçili olan kategori string'i
-  setSelectedCategory  // Seçili kategoriyi değiştiren fonksiyon
-}) {
+  categories,
+  selectedCategory,
+  setSelectedCategory}
+) {
   return (
     <>
       <aside className="sidebar">
         <h2 className="sidebar-title">Kategoriler</h2>
         <div className="sidebar-list">
-          {categories.map((cat) => ( // Tüm kategorileri tek tek dönüyoruz
+          {categories.map((cat) => (
             <div
-              key={cat} // React için benzersiz kimlik (key)
-              // Seçili kategoriye göre aktif CSS sınıfını ekliyoruz
+              key={cat}
               className={`sidebar-item ${selectedCategory === cat ? "sidebar-item-active" : ""}`}
-              onClick={() => setSelectedCategory(cat)} // Tıklanınca aktif kategoriyi güncelle
+              onClick={()=>setSelectedCategory(cat)}
             >
-              <span>{cat}</span> {/* Kategori adı */}
-              <span className="text-gray-400">&gt;</span> {/* Sağ ok işareti (>) */}
+              <span>{cat}</span>
+              <span className="text-gray-400">&gt;</span>
             </div>
           ))}
         </div>

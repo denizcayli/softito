@@ -3,17 +3,17 @@ import { useForm } from "react-hook-form"; // Form yönetimi ve validasyon küt�
 export default function AddProductForm({ categories, setView, onAddProduct }) {
   // react-hook-form hook'undan ihtiyacımız olan fonksiyonları ve hata nesnesini yıkıyoruz
   const {
-    register,     // Inputları forma kaydetmek ve kurallar (validation) eklemek için
-    handleSubmit, // Form gönderildiğinde validasyonu kontrol eden sarmalayıcı fonksiyon
+    register,     // Inputları forma kaydetmek ve kurallları zorunlu alanlarıeklemek için
+    handleSubmit, // ormun içindeki tüm inputları (senin register ile kural koyduğun alanları) tek tek inceler.
     reset,        // Form içindeki tüm inputları temizleyen fonksiyon
     formState: { errors }, // Doğrulama hatalarını anlık tutan nesne
   } = useForm();
 
-  // Validasyondan başarıyla geçen temiz form verilerinin ulaştığı asıl fonksiyon
+  
   const onSubmit = (data) => {
-    onAddProduct(data); // Üst bileşene yeni ürün verisini gönder
-    reset();            // Form alanlarını temizle
-    setView("home");    // Anasayfaya geri yönlendir
+    onAddProduct(data); // Üst bileşene yeni ürün verisini gönderen fonksiyon
+    reset();            // Form alanlarını submit ettikten sonra temizliyor
+    setView("home");    // Anasayfaya geri yönlendiriyor
   };
 
   return (
