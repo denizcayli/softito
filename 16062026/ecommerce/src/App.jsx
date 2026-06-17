@@ -5,14 +5,28 @@ import UrunListesi from "./components/UrunListesi";
 import UrunDetayi from "./components/UrunDetayi";
 import SepetGezgini from "./components/SepetGezgini";
 
+
+// products: Veritabanından çekilen orijinal ürün listesini sakladığımız ana state.
+// sepet: Kullanıcının sepete eklediği ürünleri (id, adet, fiyat) tutan liste.
+// sepetAcik: Yan panelin görünürlük durumunu (açık/kapalı) yöneten boolean şalter.
+// loading: API'den veriler yüklenirken ekranda yükleniyor animasyonunu yöneten kontrol değişkeni.
+// error: Sunucu hatası oluşursa arıza mesajını yakalayıp sakladığımız kutu.
+
+// fetch ile "/urunler.json" dosyasından asenkron olarak ürün verilerini çekiyoruz.
+// if (!res.ok) -> Sunucu bağlantısı başarısızsa catch bloğuna hata fırlatıyoruz.
+
+// handleSepeteEkle: Ürün sepette zaten varsa map ile adedini artırır, yoksa diziye yeni eleman ekler.
+// yeniAdet > anaUrun.stok -> Sepetteki adedi artırırken mağazadaki orijinal stok sınırını aşmasını engelliyoruz.
+
+
 export default function App() {
   // veritabanından gelecek olan ana ürün listesini tuttuğumuz boş dizi hafızası açtık
   const [products, setProducts] = useState([]);
  
-  // kullanıcının sepete attığı malları isim adet ve fiyat olarak tutan sepet hafızası başlattık
+  // kullanıcının sepete attığı ürünleri isim adet ve fiyat olarak tutan sepet hafızası başlattık
   const [sepet, setSepet] = useState([]);
  
-  // yandan açılan sepet çekmecesinin ekranda açık mı kapalı mı olduğunu yöneten buton şalteri koyduk
+  // yandan açılan sepet çekmecesinin ekranda açık mı kapalı mı olduğunu yöneten buton koyduk
   const [sepetAcik, setSepetAcik] = useState(false);
  
   // internetten ürünler yüklenirken ekranda yükleniyor yazısı göstermeye yarayan sayaç bekletici açtık
@@ -47,7 +61,7 @@ export default function App() {
       })
       // json paketine dönen asıl ürün listesini data adıyla teslim aldık
       .then((data) => {
-        // veritabanından gelen bu asıl malları products isimli ana devlet hafıza kutusuna kaydettik
+        // veritabanından gelen bu asıl ürünleri products isimli ana hafıza kutusuna kaydettik
         setProducts(data);
         // ürünler başarıyla geldiği için ekrandaki yükleniyor iskelet modunu kapatıp false yaptık
         setLoading(false);
@@ -62,9 +76,9 @@ export default function App() {
   }, []);
  
 
-  // kategori değiştikçe veya sepete mal atıldıkça canlı stokları hesaplayan useMemo motorunu başlattık
+  // kategori değiştikçe veya sepete ürün atıldıkça canlı stokları hesaplayan useMemo motorunu başlattık
   const displayProducts = useMemo(() => {
-    // seçili reyon all ise tüm listeyi ver değilse filter ile sadece o kategoriye ait malları süz dedik
+    // seçili reyon all ise tüm listeyi ver değilse filter ile sadece o kategoriye ait ürünleri süz dedik
     const filtered = currentCategory === "all"
       ? products
       : products.filter((item) => item.kategori === currentCategory);
@@ -96,7 +110,7 @@ export default function App() {
 
   // vitrindeki veya detaydaki sepete ekle butonlarına basılınca çalışan ana fonksiyonu kilitledik
   const handleSepeteEkle = useCallback((urun) => {
-    // eğer eklenmek istenen malın stoku kalmadıysa sıfır veya altındaysa işlemi anında iptal et dedik
+    // eğer eklenmek istenen ürünın stoku kalmadıysa sıfır veya altındaysa işlemi anında iptal et dedik
     if (urun.stok <= 0) return;
  
 
@@ -104,14 +118,14 @@ export default function App() {
     setSepet((prevSepet) => {
       // eklenmek istenen ürünün aynısından sepette zaten var mı diye kimlik kontrolü yaptık
       const varOlan = prevSepet.find((item) => item.id === urun.id);
-      // eğer mal sepette zaten mevcutsa bu if kapısını aç emri verdik
+      // eğer ürün sepette zaten mevcutsa bu if kapısını aç emri verdik
       if (varOlan) {
-        // map yardımıyla ile birliekte dönüp idsi uyuşan malın adet değerini 1 artırdık diğerlerini elletmedik
+        // map yardımıyla ile birliekte dönüp idsi uyuşan ürünın adet değerini 1 artırdık diğerlerini elletmedik
         return prevSepet.map((item) =>
           item.id === urun.id ? { ...item, adet: item.adet + 1 } : item
         );
       }
-      // mal sepette ilk defa giriyorsa eski sepeti koruyup sonuna adet değeri 1 olan yeni objeyi ekledik
+      // ürün sepette ilk defa giriyorsa eski sepeti koruyup sonuna adet değeri 1 olan yeni objeyi ekledik
       return [...prevSepet, { id: urun.id, ad: urun.ad, fiyat: urun.fiyat, adet: 1 }];
     });
   }, []);
@@ -119,9 +133,9 @@ export default function App() {
 
   // sepet çekmecesindeki artı ve eksi butonlarına basıldığında adedi düzenleyen fonksiyonu kurduk
   const handleAdetGuncelle = useCallback((productId, yeniAdet) => {
-    // dükkandaki ana ürün listesine gidip adedi değiştirilmek istenen malın orijinal halini bulduk
+    // dükkandaki ana ürün listesine gidip adedi değiştirilmek istenen ürünın orijinal halini bulduk
     const anaUrun = products.find((p) => p.id === productId);
-    // eğer dükkanda öyle bi mal bulamazsak güvenlik amacıyla işlemi yarıda kesip dön dedik
+    // eğer dükkanda öyle bi ürün bulamazsak güvenlik amacıyla işlemi yarıda kesip dön dedik
     if (!anaUrun) return;
  
 
@@ -136,7 +150,7 @@ export default function App() {
 
     // eğer kullanıcının artırmak istediği yeni adet dükkandaki toplam orijinal stoku aşarsa buraya aldık
     if (yeniAdet > anaUrun.stok) {
-      // ekrana uyarı penceresi çıkartıp açgözlülük yapma dükkanda bu kadar mal yok mesajı verdik
+      // ekrana uyarı penceresi çıkartıp stokta bu kadar ürün yok mesajı verdik
       alert(`Üzgünüz, bu üründen en fazla ${anaUrun.stok} adet ekleyebilirsiniz.`);
       // dükkan sınırları aşıldığı için adet yükseltme işlemini yapmadan kapıdan geri çevirdik
       return;
@@ -155,7 +169,7 @@ export default function App() {
 
   // sepet çekmecesindeki kırmızı sil butonuna basınca ürünü yok eden fonksiyonu yazdık
   const handleUrunCikar = useCallback((productId) => {
-    // filter kullanarak idsi bizim gelen idye eşit olmayan tüm diğer malları koru eşit olanı ise uçur dedik
+    // filter kullanarak idsi bizim gelen idye eşit olmayan tüm diğer ürünleri koru eşit olanı ise uçur dedik
     setSepet((prev) => prev.filter((item) => item.id !== productId));
   }, []);
  

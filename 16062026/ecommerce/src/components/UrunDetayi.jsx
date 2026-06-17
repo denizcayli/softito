@@ -6,10 +6,9 @@ export default function UrunDetayi({ product, onClose, onSepeteEkle }) {
     // eğer kullanıcının bastığı klavye tuşu esc tuşuna eşitse buraya gir dedik
     if e.key === Escape onClose // üstten gelen modalı kapatma fonksiyonu
   };
-  // tarayıcıya "klavyede bi tuşa basılırsa git handleKeyDown  çalıştır" ajanı diktik
+  // tarayıcıya "klavyede bi tuşa basılırsa git handleKeyDown  çalıştır dedik
   window.addEventListener keydown, handleKeyDown;
-  
-  // modal ekrandan kaybolursa tarayıcıda boşuna klavye ajanı kalmasın diye sildik
+  //handleKeyDown: Kullanıcı klavyede bir tuşa bastığında çalışan React fonksiyonu Enter ile form göndermek veya Esc ile pencere kapatmak gibi kısayollarda kullanılıyor
   return () => {
     window.removeEventListener keydown, handleKeyDown;
   };
@@ -26,7 +25,7 @@ export default function UrunDetayi({ product, onClose, onSepeteEkle }) {
   useEffect => {
   // eğer product verisi dolu geldiyse bu if kapısını aç dedik
   if product {
-    // konsola bu modal bileşeninin ekrana başarıyla çizildiğini mount loguyla bildirdik
+    // konsola bu modal bileşeninin ekrana başarıyla çizildiğini gösterdik
     console.log [Ders Notu - Mount] UrunDetayi modalı açıldı: product.ad
   }
   //kullanıcı modalı kapattığı an buradaki fonksiyon tetiklenir

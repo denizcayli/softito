@@ -8,12 +8,13 @@ export default function SepetGezgini({
   onUrunCikar
 }) {
 
-  const toplamFiyat = useMemo(() => {// sepet dizisi her değiştiğinde toplam tutarı baştan hesaplayan useMemo alanını açtık
-    return sepet.reduce((toplam, item) => toplam + item.fiyat * item.adet, 0); //// bağımlılık kutusuna sepeti koyduk sepet değişmedikçe bu hesaplamayı hafızada tut dedik
-  }, [sepet]);
+  const toplamFiyat = useMemo(() => {// sepet dizisi her değiştiğinde toplam tutarı baştan hesaplayan useMemo alanını açtık yani sepet değişmedikçe toplam tutarı baştan hesaplamıyor
+    //gereksiz yere mat hesabı yapmıyoruz en son sonucu hafızada tututoruz
+    return sepet.reduce((toplam, item) => toplam + item.fiyat * item.adet, 0); // bağımlılık kutusuna sepeti koyduk sepet değişmedikçe bu hesaplamayı hafızada tut dedik
+  }, [sepet]);// Sepetteki tüm ürünleri tek tek dönüp, fiyat ve adetlerini çarparak toplam sepet tutarını hesaplayan döngü
 
   const kargoLimit = 1500; // kargo bedava olsun diye sepetin ulaşması gereken alt sınırı belirledik
-// toplam fiyat limiti geçtiyse veya sepet boşsa kargoyu 0 yaptık değilse 50 tl kargo ücreti kilitledik
+// toplam fiyat limiti geçtiyse veya sepet boşsa kargoyu 0 yaptık değilse 50 tl kargo ücreti kilitledik :D
 const kargoUcreti = toplamFiyat >= kargoLimit || toplamFiyat === 0 ? 0 : 50;
 // bedava kargoya ne kadar kaldığını bulduk sayı eksiye düşmesin diye Math.max ile 0 sınırını koyduk
 const kalanTutar = Math.max 0, kargoLimit - toplamFiyat;

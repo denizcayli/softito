@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react"; // React'in araçlarını ekledik.
+import { useState, useEffect } from "react"; // reactin araçlarını ekledik. usestate ile ekrandaki anlık değişimleri tutacağız hafızada..
 
 export default function Baslik({ env, sepetAdedi, onSepetAc, searchVal, onSearchChange }) {
-// Üst bileşenden gelen verileri ve fonksiyonları yani propsu giriyoruz
 //searchVal: Arama kutusunun o anki metin değeri.
 //env: Aktif olan kategoriyi ya da ortamı söylüyor
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
-  });//Reactta windowSize adında bi hafıza kutusu açtı içine de
-  //  o anki ekranın enini boyunu obje olarak fırlattı setWindowSize de bu kutuyu ilerde değiştirecek tek anahtar yaptı
+  });//TARAYICIYI AÇTIĞIMIZDA o anki genişlik ve yüksekliği hafızaya aldık 
+  
 
   useEffect(() => {// Sayfa ilk açıldığında tarayıcıyı sadece 1 kere dinlemek için useEffect'i başlattık
     const handleResize = () => {
@@ -22,13 +21,13 @@ export default function Baslik({ env, sepetAdedi, onSepetAc, searchVal, onSearch
 
     window.addEventListener("resize", handleResize);// Tarayıcıya Ekran boyutu değişirse git handleResize fonksiyonunu çalıştır dedik
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize);// Sayfa açılınca ekran boyutu değişimlerini dinlemeye alıyoruz
     };
   }, []);
 
-  const getEnvName = (cat) => {  
-    if (cat === "all") return "TÜM KATEGORİLER"; // ekrana all yerine büyük harfle TÜM KATEGORİLER metni gönderdik
-    return cat.toUpperCase();
+  const getEnvName = (cat) => {  //cat kategori demek 
+    if (cat === "all") //tüm ürünleri ifade ettik return "TÜM KATEGORİLER"; // ekrana all yerine büyük harfle TÜM KATEGORİLER metni gönderdik
+    return cat.toUpperCase(); //otomatik olarak kategori isimlerini hepsini büyük harf yapıyor
   };
 
   return (
