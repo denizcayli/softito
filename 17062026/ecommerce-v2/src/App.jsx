@@ -21,29 +21,21 @@ function App() {
   const [view, setView] = useState("home");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  const [isLoginOpen,setIsLoginOpen]=useState(false);
- 
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const handleAddProduct=(data)=>{
-    const newProduct={
-      id:Date.now(),
-      title:data.title,
-      price:Number(data.price),
-      category:data.category,
-      rating:5.0,
-      ratingCount:1,
-      image:data.image,
-      description:data.description,
-
-    }
-    setProducts([newProduct,...products]);
-  }
-
-
-
-
-
-
+  const handleAddProduct = (data) => {
+    const newProduct = {
+      id: Date.now(),
+      title: data.title,
+      price: Number(data.price),
+      category: data.category,
+      rating: 5.0,
+      ratingCount: 1,
+      image: data.image,
+      description: data.description,
+    };
+    setProducts([newProduct, ...products]);
+  };
 
   const filteredProducts = products.filter((p) => {
     const matchesCategory =
@@ -87,7 +79,8 @@ function App() {
           <div className="content-area">
             <div className="content-header">
               <h1 className="page-title">
-                {selectedCategory} {searchQuery && `-> "${searchQuery}"`} Ürünler
+                {selectedCategory} {searchQuery && `-> "${searchQuery}"`}{" "}
+                Ürünler
               </h1>
               <span className="text-sm">
                 Toplam {filteredProducts.length} Ürün
@@ -106,20 +99,20 @@ function App() {
           </div>
         </main>
       ) : (
-        <AddProductForm categories={MOCK_CATEGORIES}
-        setView={setView} onAddProduct={handleAddProduct}
+        <AddProductForm
+          categories={MOCK_CATEGORIES}
+          setView={setView}
+          onAddProduct={handleAddProduct}
         />
       )}
-      <ProductDetail/>
-      <CategoriesList/>
-      <AboutUs/>
-      <HelpCenter/>
-      <OrderTracking/>
-      <ProductReturns/>
-      <CartDrawer/>
-      <LoginModal isOpen={isLoginOpen}
-      onClose={()=>setIsLoginOpen(false)}
-      />
+      <ProductDetail />
+      <CategoriesList categories={MOCK_CATEGORIES} products={products} />
+      <AboutUs />
+      <HelpCenter />
+      <OrderTracking />
+      <ProductReturns />
+      <CartDrawer />
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
       <Footer />
     </>
   );
