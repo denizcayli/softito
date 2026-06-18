@@ -1,33 +1,26 @@
-export default function ProductCard({ product }) { // Üst bileşenden gelen tekil ürün verisini (prop) alıyoruz
+export default function ProductCard({ product }) {
   return (
     <>
       <div className="product-card">
-        {/* Ürün Görsel Alanı */}
         <div className="product-img-container">
           <img
-            src={product.image} // Ürünün görsel linki
-            alt={product.title} // Görsel yüklenmezse görünecek ürün adı
+            src={product.image}
+            alt={product.title}
             className="product-img"
           />
         </div>
-        
-        {/* Ürün Bilgi Alanı */}
         <div className="product-info">
-          <span className="product-category">{product.category}</span> {/* Ürün kategorisi */}
-          <h3 className="product-title">{product.title}</h3> {/* Ürün adı */}
-          
-          {/* Ürün Değerlendirme / Puan Alanı */}
+          <span className="product-category">{product.category}</span>
+          <h3 className="product-title">{product.title}</h3>
           <div className="product-rating">
-            <span>*</span> {/* Yıldız ikonu temsili */}
-            <span>{product.rating}</span> {/* Ürünün puanı (Örn: 4.5) */}
-            <span className="text-gray-400">({product.ratingCount})</span> {/* Yorum sayısı */}
+            <span>*</span>
+            <span>{product.rating}</span>
+            <span className="text-gray-400">({product.ratingCount})</span>
           </div>
-          
-          {/* Fiyat ve Sepete Ekle Butonu */}
           <div className="product-price-container">
-            <span className="product-price">{product.price} TL</span> {/* Ürün fiyatı */}
+            <span className="product-price">{product.price} TL</span>
             <button className="product-btn">
-              <span>+</span> {/* Sepete ekleme butonu */}
+              <span>+</span>
             </button>
           </div>
         </div>
