@@ -5,6 +5,12 @@ export default function Header({
   setSelectedCategory,
   setSearchQuery,
   setView,
+  // YENİ EKLEDİM
+  onLoginClick,
+  // YENİ EKLEDİM
+  onCartClick,
+  // YENİ EKLEDİM
+  cartCount
 }) {
   const handleLogoClick = () => {
     setView("home");
@@ -33,12 +39,15 @@ export default function Header({
             <div className="action-item" onClick={()=>setView('addProduct')}>
               <span>Yeni Ürün</span>
             </div>
-            <div className="action-item">
+            {/* YENİ EKLEDİM */}
+            <div className="action-item" onClick={onLoginClick}>
               <span>Giriş Yap</span>
             </div>
-            <div className="action-item">
+            {/* YENİ EKLEDİM */}
+            <div className="action-item" onClick={onCartClick}>
               <span>Sepetim</span>
-              <span className="badge">0</span>
+              {/* YENİ EKLEDİM */}
+              <span className="badge">{cartCount}</span>
             </div>
           </div>
         </div>

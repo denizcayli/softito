@@ -3,73 +3,47 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import ProductGrid from "./components/ProductGrid";
 import Footer from "./components/Footer";
+import { useState } from "react";
 import AddProductForm from "./components/AddProductForm";
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from "./productsMock";
-import { useState } from "react";
+import AboutUs from "./components/AboutUs";
+import HelpCenter from "./components/HelpCenter";
+import OrderTracking from "./components/OrderTracking";
+import ProductReturns from "./components/ProductReturns";
+import CategoriesList from "./components/CategoriesList";
+import ProductDetail from "./components/ProductDetail";
+import CartDrawer from "./components/CartDrawer";
+import LoginModal from "./components/LoginModal";
 
 function App() {
-  // Eyalet (State) Tanımlamaları
-  const [products, setProducts] = useState(MOCK_PRODUCTS); // Tüm ürünlerin listesi
-  const [selectedCategory, setSelectedCategory] = useState("Tümü"); // Seçili kategori filtre değeri
-  const [view, setView] = useState("home"); // Ekranda hangi sayfanın görüneceği (home / addProduct)
-  const [searchQuery, setSearchQuery] = useState(""); // Filtrelemeyi tetikleyen asıl arama kelimesi
-  const [searchInput, setSearchInput] = useState(""); // Arama çubuğundaki anlık input değeri
-  const [sepet,setSepet] = useState([]);  //⭐️kullanıcın sepete attığı ürünleri 
-  //⭐️id title price vb lsite halinde ttutum
+  const [products, setProducts] = useState(MOCK_PRODUCTS);
+  const [selectedCategory, setSelectedCategory] = useState("Tümü");
+  const [view, setView] = useState("home");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  
+  // YENİ EKLEDİM
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  // YENİ EKLEDİM
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  // YENİ EKLEDİM
+  const [cartItems, setCartItems] = useState([]);
 
-
-
-  // Formdan gelen verilerle yeni ürün oluşturan fonksiyonu giriyorum
-  const handleAddProduct = (data) => {//
+  const handleAddProduct = (data) => {
     const newProduct = {
-      id: Date.now(), // 
+      id: Date.now(),
       title: data.title,
-      price: Number(data.price), // string geen fiaytı sayıya dönğştürdü
+      price: Number(data.price),
       category: data.category,
-      rating: 5.0, //puan girdik
-      ratingCount: 1, // değerlendirme sayısını 1 girdim
-      image: data.image, 
+      rating: 5.0,
+      ratingCount: 1,
+      image: data.image,
       description: data.description,
     };
-    // Yeni ürünü listenin başına ekleyip state'i güncelleme
     setProducts([newProduct, ...products]);
   };
 
-  const handleSepeteEkle = (urun)=> {  // ⭐️Ürün kartındaki + butonuna basılınca çalışan sepete ekleme fonksiyonunu başlattık
-    setSepet((prevSepet) => {
-      const varOlan = prevSepet.find((item) => item.id === urun.id);
-
-      if (varOlan){
-        return prevSepet.map((item) => 
-          item.id === urun.id ? {...item, adet: item.adet + 1} : item
-        )
-      }
-      return [...prevSepet, { id: urun.id, title: urun.title, price: urun.price, adet:1}];
-    })
-  }
-
-  // ⭐️Ürün kartındaki - butonuna basılınca adet düşürme ve silme fonksiyonu
-      const handleAdetDusur = (productId) => {
-    setSepet((prevSepet) => {
-    // Adedi düşürülecek ürün sepette var mı diye kontrol ettik
-    const varOlan = prevSepet.find((item) => item.id === productId);
-    
-    //  Eğer ürün sepette zaten yoksa hiçbir şey yapmadan sepeti aynen bırak dedik
-    if (!varOlan) return prevSepet;
-
-    if (varOlan.adet === 1) {
-      // Eğer ürünün sepetteki adedi 1 ise, eksiye basınca filter ile o ürünü sepetten tamamen çıkarmış olduk
-      return prevSepet.filter((item) => item.id !== productId);
-    }
-    
-    // ⭐️Eğer adet 1'den büyükse, map ile dönüp sadece o ürünün adet değerini 1 azalttık tamamen silmedik örneğin sepette5 ürün varsa 4 e indirdi 
-    return prevSepet.map((item) =>
-      item.id === productId ? { ...item, adet: item.adet - 1 } : item
-    );
-  });
-};
-
-  // Kategori ve Arama kelimesine göre ürünleri filtreleyen motor
   const filteredProducts = products.filter((p) => {
     const matchesCategory =
       selectedCategory === "Tümü" || p.category === selectedCategory;
@@ -79,15 +53,142 @@ function App() {
     return matchesCategory && matchesSearch;
   });
 
-  // Arama formu gönderildiğinde (Enter/Buton) tetiklenen fonksiyon
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setSearchQuery(searchInput); // İnput değerini asıl arama sorgusuna aktarır
+    setSearchQuery(searchInput);
+    // YENİ EKLEDİM
+    setView("home");
+  };
+
+  // YENİ EKLEDİM
+  const handleCategorySelect = (categoryName) => {
+    setSelectedCategory(categoryName);
+    setView("home");
+  };
+
+  // YENİ EKLEDİM
+  const handleAddToCart = (product) => {
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((item) => item.id === product.id);
+      if (existingItem) {
+        return prevItems.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...prevItems, { ...product, quantity: 1 }];
+    });
+  };
+
+  // YENİ EKLEDİM
+  const handleUpdateQuantity = (id, amount) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
+          : item
+      )
+    );
+  };
+
+  // YENİ EKLEDİM
+  const handleRemoveFromCart = (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  // YENİ EKLEDİM
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      alert("Sepetiniz boş! Önce ürün eklemelisiniz.");
+      return;
+    }
+    alert("Alışverişiniz başarıyla tamamlandı! Teşekkür ederiz.");
+    setCartItems([]);
+  };
+
+  // YENİ EKLEDİM
+  const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  // YENİ EKLEDİM
+  const renderContent = () => {
+    switch (view) {
+      case "home":
+        return (
+          <main className="main-layout">
+            <Sidebar
+              categories={MOCK_CATEGORIES}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+
+            <div className="content-area">
+              <div className="content-header">
+                <h1 className="page-title">
+                  {selectedCategory} {searchQuery && `-> "${searchQuery}"`}{" "}
+                  Ürünler
+                </h1>
+                <span className="text-sm">
+                  Toplam {filteredProducts.length} Ürün
+                </span>
+              </div>
+
+              {filteredProducts.length === 0 ? (
+                <div className="text-center py-10">
+                  <p className="text-red-900">
+                    Aradığınız kriterlere uygun ürün bulunamadı.
+                  </p>
+                </div>
+              ) : (
+                <ProductGrid 
+                  products={filteredProducts} 
+                  onProductClick={(product) => {
+                    setSelectedProduct(product);
+                    setView("detail");
+                  }}
+                  onAddToCart={handleAddToCart}
+                />
+              )}
+            </div>
+          </main>
+        );
+      case "categories":
+        return (
+          <CategoriesList 
+            categories={MOCK_CATEGORIES} 
+            products={products} 
+            onCategoryClick={handleCategorySelect}
+          />
+        );
+      case "addProduct":
+        return (
+          <AddProductForm
+            categories={MOCK_CATEGORIES}
+            setView={setView}
+            onAddProduct={handleAddProduct}
+          />
+        );
+      case "about":
+        return <AboutUs />;
+      case "help":
+        return <HelpCenter />;
+      case "tracking":
+        return <OrderTracking />;
+      case "returns":
+        return <ProductReturns />;
+      case "detail":
+        return (
+          <ProductDetail 
+            product={selectedProduct} 
+            setView={setView} 
+            onAddToCart={handleAddToCart}
+          />
+        );
+      default:
+        return <div className="text-center py-10">Sayfa Bulunamadı.</div>;
+    }
   };
 
   return (
     <>
-      {/* ⭐️Üst Bilgi ve Arama Alanı */}
       <Header
         searchInput={searchInput}
         setSearchInput={setSearchInput}
@@ -95,69 +196,35 @@ function App() {
         setSearchQuery={setSearchQuery}
         setSelectedCategory={setSelectedCategory}
         setView={setView}
-        sepet={sepet} //⭐️YENİ EKLEDİMM !! sağdaki sepetim kıısmı için prop olarak gönderiytoruz
-        sepeteEkle={handleSepeteEkle}
-        adetDusur={handleAdetDusur}
-     
-     
-     />
-      
-      {/* Kategori Navigasyon Menüsü */}
+        // YENİ EKLEDİM
+        onLoginClick={() => setIsLoginOpen(true)}
+        // YENİ EKLEDİM
+        onCartClick={() => setIsCartOpen(true)}
+        // YENİ EKLEDİM
+        cartCount={totalCartCount}
+      />
       <Navbar
         categories={MOCK_CATEGORIES}
         selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+        // YENİ EKLEDİM
+        setSelectedCategory={handleCategorySelect}
         setView={setView}
       />
 
-      {/* Sayfa Görünüm Kontrolü (Görünüm 'home' ise ana sayfayı göster) */}
-      {view === "home" ? (
-        <main className="main-layout">
-          {/* Yan Menü Kategorileri */}
-          <Sidebar
-            categories={MOCK_CATEGORIES}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
+      {/* YENİ EKLEDİM */}
+      {renderContent()}
 
-          <div className="content-area">
-            {/* Filtre Başlığı ve Toplam Ürün Sayısı */}
-            <div className="content-header">
-              <h1 className="page-title">
-                {selectedCategory} {searchQuery && `> "${searchQuery}"`} Ürünler
-              </h1>
-              <span className="text-sm">
-                Toplam {filteredProducts.length} Ürün
-              </span>
-            </div>
-
-            {/* Filtre sonucu boşsa uyarı mesajı, doluysa ürün gridini basar */}
-            {filteredProducts.length === 0 ? (
-              <div className="text-center py-10">
-                <p className="text-red-500">
-                  Aradığınız kriterlere uygun ürün bulunamadı.
-                </p>
-              </div>
-            ) : (
-              <ProductGrid products={filteredProducts} //⭐️
-              //⭐️YENİ EKLEDİMM !! -alt kısmı dive kadar
-              products={filteredProducts}
-              sepet={sepet}
-              sepeteEkle={handleSepeteEkle}
-              adetDusur={handleAdetDusur}
-              />//⭐️
-            )}
-          </div>
-        </main>
-      ) : (
-        /* Görünüm home değilse Ürün Ekleme Formunu Göster */
-        <AddProductForm 
-          categories={MOCK_CATEGORIES}
-          setView={setView} 
-          onAddProduct={handleAddProduct} // Yeni ürün ekleme fonksiyonunu prop olarak yolladık
-        />
-      )}
-      <Footer />
+      {/* YENİ EKLEDİM */}
+      <CartDrawer 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemove={handleRemoveFromCart}
+        onCheckout={handleCheckout}
+      />
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+      <Footer setView={setView} setSelectedCategory={setSelectedCategory} />
     </>
   );
 }

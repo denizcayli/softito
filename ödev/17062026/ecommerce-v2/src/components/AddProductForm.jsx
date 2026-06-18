@@ -1,38 +1,28 @@
-import { useForm } from "react-hook-form"; // Form yönetimi ve validasyon kütüphanesi
-
+import { useForm } from "react-hook-form";
 export default function AddProductForm({ categories, setView, onAddProduct }) {
-  // react-hook-form hook'undan ihtiyacımız olan fonksiyonları ve hata nesnesini yıkıyoruz
   const {
-    register,     // Inputları forma kaydetmek ve kurallları zorunlu alanlarıeklemek için
-    handleSubmit, // ormun içindeki tüm inputları (senin register ile kural koyduğun alanları) tek tek inceler.
-    reset,        // Form içindeki tüm inputları temizleyen fonksiyon
-    formState: { errors }, // Doğrulama hatalarını anlık tutan nesne
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
   } = useForm();
-
-  
   const onSubmit = (data) => {
-    onAddProduct(data); // Üst bileşene yeni ürün verisini gönderen fonksiyon
-    reset();            // Form alanlarını submit ettikten sonra temizliyor
-    setView("home");    // Anasayfaya geri yönlendiriyor
+    onAddProduct(data);
+    reset();
+    setView("home");
   };
-
   return (
     <>
       <main className="container">
         <div className="form-layout">
           <h2 className="form-title">Yeni Ürün Ekle</h2>
-          
-          {/* handleSubmit, formu doğrular; sorun yoksa onSubmit fonksiyonumuzu çalıştırır */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            
-            {/* Ürün Adı Girişi */}
             <div className="form-group">
               <label className="form-label">Ürün Adı</label>
               <input
                 className="form-input"
                 type="text"
                 placeholder="Örn:Kablosuz Klavye"
-                // 'title' adıyla inputu kaydet ve doğrulama kuralları ekle
                 {...register("title", {
                   required: "Ürün adı zorunludur",
                   minLength: {
@@ -41,13 +31,10 @@ export default function AddProductForm({ categories, setView, onAddProduct }) {
                   },
                 })}
               />
-              {/* Eğer title alanında hata varsa mesajı ekrana bas */}
               {errors.title && (
                 <span className="form-error">{errors.title.message}</span>
               )}
             </div>
-
-            {/* Kategori Seçimi */}
             <div className="form-group">
               <label className="form-label">Kategori</label>
               <select
@@ -57,7 +44,6 @@ export default function AddProductForm({ categories, setView, onAddProduct }) {
                 })}
               >
                 <option value="">Seçiniz</option>
-                {/* "Tümü" seçeneği hariç diğer kategorileri option olarak listele */}
                 {categories
                   .filter((c) => c !== "Tümü")
                   .map((cat) => (
@@ -70,8 +56,6 @@ export default function AddProductForm({ categories, setView, onAddProduct }) {
                 <span className="form-error">{errors.category.message}</span>
               )}
             </div>
-
-            {/* Görsel URL Girişi */}
             <div className="form-group">
               <label className="form-label">Görsel URL </label>
               <input
@@ -86,8 +70,6 @@ export default function AddProductForm({ categories, setView, onAddProduct }) {
                 <span className="form-error">{errors.image.message}</span>
               )}
             </div>
-
-            {/* Fiyat Girişi */}
             <div className="form-group">
               <label className="form-label">Fiyat (TL)</label>
               <input
@@ -106,8 +88,6 @@ export default function AddProductForm({ categories, setView, onAddProduct }) {
                 <span className="form-error">{errors.price.message}</span>
               )}
             </div>
-
-            {/* Açıklama Girişi */}
             <div className="form-group">
               <label className="form-label">Açıklama</label>
               <textarea
@@ -126,15 +106,10 @@ export default function AddProductForm({ categories, setView, onAddProduct }) {
               )}
             </div>
 
-            {/* Formu Gönderme Butonu */}
             <button className="form-submit" type="submit">
               Ürünü Kaydet
             </button>
-            
-            {/* Geri Dön Butonu: Tıklandığında formu sıfırlar ve anasayfaya yönlendirir */}
-            <span className="form-toggle-btn" onClick={() => { reset(); setView('home'); }}>
-              Geri Dön
-            </span>
+            <span className="form-toggle-btn" onClick={()=>{reset();setView('home')}}>Geri Dön</span>
           </form>
         </div>
       </main>
