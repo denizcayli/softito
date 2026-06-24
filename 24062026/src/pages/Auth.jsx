@@ -49,6 +49,7 @@ export default function Auth() {
               name="user-role-select"
               defaultChecked
               className="role-input"
+               checked={selectedRole==="Admin"}
               onChange={()=>setSelectedRole("Admin")}
             />
             <label htmlFor="role-admin" className="role-card-label">
@@ -63,6 +64,7 @@ export default function Auth() {
               id="role-accounting"
               name="user-role-select"
               className="role-input"
+              checked={selectedRole==="Muhasebe"}
               onChange={()=>setSelectedRole("Muhasebe")}
             />
             <label htmlFor="role-accounting" className="role-card-label">
@@ -77,6 +79,7 @@ export default function Auth() {
               id="role-technical"
               name="user-role-select"
               className="role-input"
+               checked={selectedRole==="Teknik"}
               onChange={()=>setSelectedRole("Teknik")}
             />
             <label htmlFor="role-technical" className="role-card-label">
