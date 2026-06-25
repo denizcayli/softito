@@ -4,49 +4,48 @@ const initialState = {
   list: [
     {
       id: 1,
-      name: "Deniz Çaylı",
-      company: "Vera Patent",
-      email: "deniz@vera.com",
+      name: "Ahmet Yılmaz",
+      company: "Yılmaz Mühendislik A.Ş.",
+      email: "ahmet@yilmaz.com",
       phone: "05335333333",
       balance: 12500,
-      status: "Pasif",
-    },
-    {
-      id: 2,
-      name: "Gizem Çaylı Yasa",
-      company: "Vera Patent",
-      email: "gizem@vera.com",
-      phone: "05335333333",
-      balance: 4500,
       status: "Aktif",
     },
     {
-      id: 3,
-      name: "Alperen Yasa",
-      company: "Vera Patent",
-      email: "alperen@vera.com",
+      id: 2,
+      name: "Mehmet Yılmaz",
+      company: "Yılmaz Mühendislik A.Ş.",
+      email: "mehmet@yilmaz.com",
       phone: "05335333333",
-      balance: 12500,
+      balance: 4500,
+      status: "Pasif",
+    },
+    {
+      id: 3,
+      name: "Selami Yılmaz",
+      company: "Yılmaz Mühendislik A.Ş.",
+      email: "selami@yilmaz.com",
+      phone: "05335333333",
+      balance: 1200,
       status: "Aktif",
     },
     {
       id: 4,
-      name: "Gökçe Yasa Aykaç",
-      company: "Vera Patent",
-      email: "gokce@vera.com",
+      name: "Esra Yılmaz",
+      company: "Yılmaz Mühendislik A.Ş.",
+      email: "esra@yilmaz.com",
       phone: "05335333333",
       balance: -5000,
       status: "Pasif",
     },
   ],
-   selecterCustomer: null,
+  selecterCustomer: null,
 };
-
 
 const customerSlice = createSlice({
   name: "customer",
   initialState,
-  reducers: (state, action) => {
+  reducers: {
     addCustomer: (state, action) => {
       const nextId =
         state.list.length > 0
@@ -57,23 +56,23 @@ const customerSlice = createSlice({
         balance: 0,
         ...action.payload,
       });
-    };
+    },
     editCustomer: (state, action) => {
       const index = state.list.findIndex((c) => c.id === action.payload.id);
       if (index !== -1) {
         state.list[index] = { ...state.list[index], ...action.payload };
       }
       state.selecterCustomer = null;
-    };
+    },
     deleteCustomer: (state, action) => {
       state.list = state.list.filter((c) => c.id !== action.payload);
-    };
-    selecterCustomerForEdit: (state,action)=>{
-        state.selecterCustomer = action.payload;
-    }
-    clearSelectedCustomer: (state) =>{
-        state.selecterCustomer = null;
-    }
+    },
+    selectCustomerForEdit: (state, action) => {
+      state.selecterCustomer = action.payload;
+    },
+    clearSelectedCustomer: (state) => {
+      state.selecterCustomer = null;
+    },
   },
 });
 export const {

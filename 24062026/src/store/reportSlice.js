@@ -25,13 +25,13 @@ const reportsSlice = createSlice({
   reducers: {
     generateReport: (state, action) => {
       const { type, range, format } = action.payload;
-      const fileExt = format === "Excell(.xlsx)" ? "xlsx" : "pdf";
+      const fileExt = format === "Excel(.xlsx)" ? "xlsx" : "pdf";
       const titleAbbr = type
         .split(" ")
         .map((w) => w[0])
         .join("")
         .toUpperCase();
-      const rangeClean = range.replace(" ", " ");
+      const rangeClean = range.replace(" ", "_");
       const title = `${titleAbbr}_Raporu_${rangeClean}.${fileExt}`;
       const sizeNum = (1.2 + Math.random() * 3).toFixed(1);
       const size = `${sizeNum} MB`;

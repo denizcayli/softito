@@ -13,6 +13,6 @@ export const store = configureStore({
     stock: stockReducer,
     products: productReducer,
     reports: reportReducer,
-    messaging: messageReducer
+    messaging: messageReducer,
   },
 });
