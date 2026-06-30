@@ -19,7 +19,7 @@ export default function Dashboard() {
     customers.reduce((sum, c) => (c.balance > 0 ? sum + c.balance : sum), 0) +
     150000;
 
-   const recentActivities = [];
+  const recentActivities = [];
 
   movements.slice(0, 2).forEach((mov) => {
     const item = stockItems.find((i) => i.sku === mov.sku);
@@ -53,7 +53,6 @@ export default function Dashboard() {
     (a, b) => b.timestamp - a.timestamp,
   );
 
-
   return (
     <div className="tab-content dashboard-content">
       <div className="page-header">
@@ -67,8 +66,12 @@ export default function Dashboard() {
           <button type="button" className="btn-secondary">
             Filtrele
           </button>
-          <button type="button" className="btn-primary">
-            Yeni Ekle
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => dispatch(setActiveTab("customers"))}
+          >
+            Yeni Müşteri Ekle
           </button>
         </div>
       </div>
@@ -93,7 +96,7 @@ export default function Dashboard() {
           </div>
           <div className="kpi-details">
             <span className="kpi-label">Toplam Müşteri</span>
-            <span className="kpi-value">1,482</span>
+            <span className="kpi-value">{totalCustomers}</span>
             <span className="kpi-change text-emerald-600">
               <svg
                 className="w-3.5 h-3.5"
@@ -109,7 +112,7 @@ export default function Dashboard() {
                   d="M5 10l7-7m0 0l7 7m-7-7v18"
                 ></path>
               </svg>
-              <span>12.5% artış</span>
+              <span>Aktif Portföy</span>
             </span>
           </div>
         </div>
@@ -133,7 +136,9 @@ export default function Dashboard() {
           </div>
           <div className="kpi-details">
             <span className="kpi-label">Toplam Stok Kalemi</span>
-            <span className="kpi-value">84,920</span>
+            <span className="kpi-value">
+              {totalStockQuantity.toLocaleString("tr-TR")} Adet
+            </span>
             <span className="kpi-change text-emerald-600">
               <svg
                 className="w-3.5 h-3.5"
@@ -149,7 +154,7 @@ export default function Dashboard() {
                   d="M5 10l7-7m0 0l7 7m-7-7v18"
                 ></path>
               </svg>
-              <span>4.2% artış</span>
+              <span>Depolar Dolu</span>
             </span>
           </div>
         </div>
@@ -173,7 +178,7 @@ export default function Dashboard() {
           </div>
           <div className="kpi-details">
             <span className="kpi-label">Kritik Stok Uyarıları</span>
-            <span className="kpi-value">12 Adet</span>
+            <span className="kpi-value">{criticalStockCount} Adet</span>
             <span className="kpi-change text-rose-600">
               <svg
                 className="w-3.5 h-3.5"
@@ -189,7 +194,7 @@ export default function Dashboard() {
                   d="M19 14l-7 7m0 0l-7-7m7 7V3"
                 ></path>
               </svg>
-              <span>18.1% kritik seviye</span>
+              <span>Acil Tedarik Lazım</span>
             </span>
           </div>
         </div>
@@ -213,7 +218,9 @@ export default function Dashboard() {
           </div>
           <div className="kpi-details">
             <span className="kpi-label">Aylık Toplam Satış</span>
-            <span className="kpi-value">₺384,150</span>
+            <span className="kpi-value">
+              {calculatedSales.toLocaleString("tr-TR")}TL
+            </span>
             <span className="kpi-change text-emerald-600">
               <svg
                 className="w-3.5 h-3.5"
@@ -229,7 +236,7 @@ export default function Dashboard() {
                   d="M5 10l7-7m0 0l7 7m-7-7v18"
                 ></path>
               </svg>
-              <span>8.9% artış</span>
+              <span>Finansal Hacim</span>
             </span>
           </div>
         </div>
@@ -281,47 +288,25 @@ export default function Dashboard() {
             <span className="card-link">Tümünü Gör</span>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="activity-item">
-              <div className="activity-icon activity-icon-success">✓</div>
-              <div>
-                <p className="activity-title">Müşteri Eklendi: Ahmet Yılmaz</p>
-                <p className="activity-time">Admin tarafından • 5 dk önce</p>
-              </div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-icon activity-icon-warning">⚠</div>
-              <div>
-                <p className="activity-title">
-                  Kritik Stok Uyarısı: HP Laserjet Toner
-                </p>
-                <p className="activity-time">
-                  Stok seviyesi 2 adete düştü • 25 dk önce
-                </p>
-              </div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-icon activity-icon-info">✉</div>
-              <div>
-                <p className="activity-title">Yeni Mesaj: Muhasebe Bölümü</p>
-                <p className="activity-time">
-                  Fatura detayları iletildi • 1 saat önce
-                </p>
-              </div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-icon activity-icon-primary">✎</div>
-              <div>
-                <p className="activity-title">
-                  Ürün Bilgisi Güncellendi: Macbook Air M3
-                </p>
-                <p className="activity-time">
-                  Satış Ekibi tarafından • 3 saat önce
-                </p>
-              </div>
-            </div>
+            {sortedActivities.length > 0 ? (
+              sortedActivities.map((act, index) => (
+                <div key={index} className="activity-item">
+                  <div className={`activity-icon ${act.iconClass}`}>
+                    {act.icon}
+                  </div>
+                  <div>
+                    <p className="activity-title">{act.title}</p>
+                    <p className="activity-time">
+                      {act.subtitle} • {act.time}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-xs text-slate-400">
+                Henüz Bir Aktivite Gerçekleştirilmedi.
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -126,5 +126,5 @@ const messageSlice = createSlice({
     },
   },
 });
-export const {sendMessage,setActiveContact}=messageSlice.actions
+export const { sendMessage, setActiveContact } = messageSlice.actions;
 export default messageSlice.reducer;
